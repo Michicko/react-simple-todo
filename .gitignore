@@ -5,11 +5,14 @@
 /.pnp
 .pnp.js
 
+# sass files
+/src/scss
+
 # testing
 /coverage
 
 # production
-/build
+# /build
 
 # misc
 .DS_Store
