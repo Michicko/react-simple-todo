@@ -1,5 +1,5 @@
-# Simple Todo List with crud operation using React
+# Simple Todo List With Crud Operation
 
-This is a simple todo list built with reactJs, will be persisted to localstorage
+This is a simple todo list built with reactJs, will be persisted to localstorage.
 
 
