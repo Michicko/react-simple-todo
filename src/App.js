@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TodoForm from "./components/TodoForm";
 import TodoList from "./components/TodoList";
 
@@ -6,6 +6,22 @@ function App() {
 	const genId = (rnd = (r16) => Math.floor(r16).toString(16)) =>
 		rnd(Date.now() / 1000) +
 		" ".repeat(16).replace(/./g, () => rnd(Math.random() * 16));
+
+	const getFromStorage = () => {
+		let todos = null;
+		if (localStorage.getItem('todos') === null) {
+			todos = [];
+		} else {
+			todos = JSON.parse(localStorage.getItem('todos'));
+		}
+		return todos;
+	}
+
+	const saveToStorage = (todos) => {
+		localStorage.setItem('todos', JSON.stringify(todos));
+	}
+
+	
 
 	const [state, setState] = useState({
 		todos: [],
@@ -17,7 +33,13 @@ function App() {
 	const [todoList, setTodoList] = useState([]);
   const [edit, setEdit] = useState(false);
   
-  // if adding localstorage - use useEffect to setTodoList
+	// if adding localstorage - use useEffect to setTodoList
+	// update list from storage
+	useEffect(() => {
+		// get todos from storage and save to todoList
+		const list = getFromStorage();
+		setTodoList(list);
+	}, []);
 
 	const handleTodoInput = (e) => {
 		setTodoInputValue(e.target.value);
@@ -42,7 +64,8 @@ function App() {
 				id: genId(),
 				todos: updatedTodoList,
       });
-      setTodoList(updatedTodoList);
+			setTodoList(updatedTodoList);
+			saveToStorage(updatedTodoList);
       setTodoInputValue("");
       setEdit(false);
 		} else {
@@ -52,11 +75,21 @@ function App() {
 
 	const clearList = () => {
 		setTodoList([]);
+		setState({
+			...state,
+			todos: [],
+		});
+		saveToStorage([]);
 	};
 
 	const handleDelete = (id) => {
 		const newList = todoList.filter((todo) => todo.id !== id);
 		setTodoList(newList);
+		setState({
+			...state,
+			todos: newList,
+		});
+		saveToStorage(newList);
 	};
 
 	const handleEdit = (id) => {
@@ -65,7 +98,6 @@ function App() {
 		const filteredTodo = todoList.filter((todo) => todo.id !== id);
 		setTodoList(filteredTodo);
 		setTodoInputValue(selectedTodo.text);
-    console.log(selectedTodo);
     setState({
       id: selectedTodo.id,
       todos: filteredTodo
