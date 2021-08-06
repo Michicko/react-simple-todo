@@ -7,6 +7,7 @@ function App() {
 		rnd(Date.now() / 1000) +
 		" ".repeat(16).replace(/./g, () => rnd(Math.random() * 16));
 
+	
 	const getFromStorage = () => {
 		let todos = null;
 		if (localStorage.getItem('todos') === null) {

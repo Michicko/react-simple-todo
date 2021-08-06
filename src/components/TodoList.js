@@ -1,7 +1,7 @@
 import TodoItem from "./TodoItem";
 
 const TodoList = ({ todoList, handleEdit, handleDelete }) => {
-  
+	
 	return (
 		<ul className='todo-list'>
 			{todoList.map((todo) => {

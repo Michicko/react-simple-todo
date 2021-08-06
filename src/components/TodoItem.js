@@ -20,4 +20,5 @@ const TodoItem = ({ todo, handleEdit, handleDelete }) => {
 	);
 };
 
+
 export default TodoItem;
